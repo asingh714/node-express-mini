@@ -5,8 +5,9 @@ const db = require("./data/db.js");
 const port = 5000;
 
 const server = express();
-server.use(cors());
 server.use(express.json());
+server.use(cors());
+
 
 // GET request to /api/users
 server.get("/api/users", (req, res) => {
@@ -46,7 +47,7 @@ server.get("/api/users/:id", (req, res) => {
 server.post("/api/users", (req, res) => {
   const user = req.body;
 
-  if (!user.name || !user.bio) {
+  if (!user.name && !user.bio) {
     res
       .status(400)
       .json({ errorMessage: "Please provide name and bio for the user." });
@@ -74,7 +75,7 @@ server.put("/api/users/:id", (req, res) => {
         .status(404)
         .json({ message: "The user with the specified ID does not exist." });
     }
-    if (!changes.name || !changes.bio) {
+    if (!changes.name && !changes.bio) {
       res
         .status(400)
         .json({ errorMessage: "Please provide name and bio for the user." });
